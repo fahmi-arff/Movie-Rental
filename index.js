@@ -2,6 +2,9 @@ const express = require('express');
 // Create Express application by convenction call app
 const app = express();
 
+//weird undefined code
+app.use(express.json());
+
 const courses = [
   { id: 1 , name: 'course1' },
   { id: 2 , name: 'course2' },
@@ -24,6 +27,15 @@ app.get('/api/courses/:id', (req, res) => {
   if(!course) res.status(404).send('The course with given ID was not found');
   res.send(course);
 });
+
+app.post('/api/courses', (req,res) => {
+  const course = {
+    id: courses.length + 1,
+    name: req.body.name
+  };
+  courses.push(course);
+  res.send(course);
+})
 
 // export PORT=5000 on terminal
 const port = process.env.PORT || 3000;
