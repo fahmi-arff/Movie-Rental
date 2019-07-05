@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
-const courses = require('./routes/courses');
+const genres = require('./routes/genres');
 
 app.use(express.json());
-app.use('/api/courses', courses);
+app.use('/api/genres', genres);
 
 // export PORT=5000 on terminal
 const port = process.env.PORT || 3000;
