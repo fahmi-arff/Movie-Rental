@@ -33,5 +33,5 @@ function validateUser(user) {
   return Joi.validate(user, schema);
 }
 
-exports.Genre = this.Genre; 
+exports.User = User; 
 exports.validate = validateUser;
