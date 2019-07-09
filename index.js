@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
 const genres = require('./routes/genres');
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/playground')
+  .then(() => console.log('Connected to MongoDB...'))
+  .catch(err => console.log('Could not connect to MongoDB..'))
 
 app.use(express.json());
 app.use('/api/genres', genres);
