@@ -7,6 +7,7 @@ const customers = require('./routes/customers');
 const movies = require('./routes/movies');
 const rentals = require('./routes/rentals');
 const users = require('./routes/users');
+const auth = require('./routes/auth');
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/playground', {useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true})
@@ -19,6 +20,7 @@ app.use('/api/customers', customers);
 app.use('/api/movies', movies);
 app.use('/api/rentals', rentals);
 app.use('/api/users', users);
+app.use('/api/auth', auth);
 
 // export PORT=5000 on terminal
 const port = process.env.PORT || 3000;
