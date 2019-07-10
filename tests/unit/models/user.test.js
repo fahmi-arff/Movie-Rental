@@ -16,6 +16,3 @@ describe('user.generateAuthToken', () => {
   });
 });
 
-module.exports = {
-  testEnvironment: 'node'
-};
