@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --verbose --config ./jest.config.js"
+    "test": "jest --watchAll --verbose"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,5 @@
   "devDependencies": {
     "jest": "^24.8.0",
     "supertest": "^4.0.2"
-  },
-  "testEnvironment": "node"
+  }
 }
