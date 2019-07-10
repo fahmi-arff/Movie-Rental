@@ -7,8 +7,13 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 router.get('/', async(req, res) => {
-  const genres = await Genre.find().sort('name');
-  res.send(genres);
+  try{
+    const genres = await Genre.find().sort('name');
+    res.send(genres);
+  }
+  catch(ex) {
+    res.status(500).send('Something failed.');
+  }
 });
 
 router.get('/:id', async(req, res) => {
