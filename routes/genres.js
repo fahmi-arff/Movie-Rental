@@ -12,7 +12,7 @@ router.get('/', async(req, res) => {
     res.send(genres);
   }
   catch(ex) {
-    res.status(500).send('Something failed.');
+    next(ex);
   }
 });
 
