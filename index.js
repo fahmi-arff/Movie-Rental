@@ -15,14 +15,12 @@ const users = require('./routes/users');
 const auth = require('./routes/auth');
 const mongoose = require('mongoose');
 
-process.on('uncaughtException', ex => {
-  console.log('WE GOT AN UNCAUGHT EXCEPTION');
-  winston.error(ex.message, ex);
-})
+winston.handleExceptions(
+  new winston.transports.File({ filename: 'uncaughtExceptions.log' })
+)
 
 process.on('unhandledRejection', ex => {
-  console.log('WE GOT AN UNHANDLED REJECTION');
-  winston.error(ex.message, ex);
+  throw ex;
 })
 
 winston.add(winston.transports.File, { filename: 'logfile.log' });
