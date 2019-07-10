@@ -1,3 +1,4 @@
+const asycMiddleware = require('../middleware/async');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const {Genre, validate} = require('../models/genre');
@@ -6,21 +7,16 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-router.get('/', async(req, res) => {
-  try{
-    const genres = await Genre.find().sort('name');
-    res.send(genres);
-  }
-  catch(ex) {
-    next(ex);
-  }
-});
+router.get('/', asycMiddleware(async(req, res) => {
+  const genres = await Genre.find().sort('name');
+  res.send(genres);
+}));
 
-router.get('/:id', async(req, res) => {
+router.get('/:id', asycMiddleware(async(req, res) => {
   const genre = await Genre.findById(req.params.id);
   if(!genre) return res.status(404).send('The genre with given ID was not found');
   res.send(genre);
-});
+}));
 
 router.post('/', auth, async(req,res) => {
   const { error } = validate(req.body);
