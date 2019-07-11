@@ -8,7 +8,7 @@ let server;
 describe('/api/genres', () => {
   beforeEach(() => { server = require('../../index'); })
   afterEach(async() => { 
-    server.close();
+    await server.close();
     await Genre.remove({});
   })
 
@@ -37,14 +37,21 @@ describe('/api/genres', () => {
 
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty('name', genre.name);
-    }),
+    })
     
     it('should return 404 if invalid id is passed', async () => {
       const res = await request(server).get('/api/genres/1');
 
       expect(res.status).toBe(404);
     })
-  }),
+    
+    it('should return 404 if no genre with the given id exist', async () => {
+      const id = mongoose.Types.ObjectId();
+      const res = await request(server).get('/api/genres/' + id);
+
+      expect(res.status).toBe(404);
+    })
+  })
 
   describe('POST /', () => {
     let token;
@@ -68,7 +75,7 @@ describe('/api/genres', () => {
       const res = await exec()
 
       expect(res.status).toBe(401);
-    }),
+    })
     
     it('should return 400 if genre is less than 5 characters', async() => {
       name = "1234"
@@ -76,7 +83,7 @@ describe('/api/genres', () => {
       const res = await exec();
 
       expect(res.status).toBe(400);
-    }),
+    })
     
     it('should return 400 if genre is more than 50 characters', async() => {
       name = new Array(52).join('a');
@@ -84,7 +91,7 @@ describe('/api/genres', () => {
       const res = await exec()
 
       expect(res.status).toBe(400);
-    }),
+    })
 
     it('should save the genre if it is valid', async() => {
       await exec();
@@ -92,7 +99,7 @@ describe('/api/genres', () => {
       const genre = await Genre.find({ name: 'genre1' });
 
       expect(genre).not.toBeNull();
-    }),
+    })
 
     it('should return the genre if it is valid', async() => {
       const res = await exec();
