@@ -26,7 +26,7 @@ describe('/api/genres', () => {
       expect(res.body.some(g => g.name === 'genre1')).toBeTruthy();
       expect(res.body.some(g => g.name === 'genre2')).toBeTruthy();
     })
-  }),
+  });
 
   describe('GET /:id', () => {
     it('should return a genre if valid id is passed', async () => {
