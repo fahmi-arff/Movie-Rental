@@ -6,7 +6,10 @@ const mongoose = require('mongoose');
 let server;
 
 describe('/api/genres', () => {
-  beforeEach(() => { server = require('../../index'); })
+  beforeEach(() => {     
+    process.env.PORT = 5000;
+    server = require('../../index'); 
+  })
   afterEach(async() => { 
     server.close();
     await Genre.remove({});

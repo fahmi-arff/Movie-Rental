@@ -5,7 +5,10 @@ const mongoose = require('mongoose');
 let server;
 
 describe('/api/users', () => {
-  beforeEach(() => { server = require('../../index'); })
+  beforeEach(() => { 
+    process.env.PORT = 8000;
+    server = require('../../index'); 
+  })
   afterEach(async() => { 
     server.close();
     await User.remove({});

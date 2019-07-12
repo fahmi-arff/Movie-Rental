@@ -8,6 +8,7 @@ let server;
 
 describe('/api/movies', () => {
   beforeEach(async() => { 
+    process.env.PORT = 6000;
     server = require('../../index'); 
     await Genre.collection.insertMany([
       { name: 'genre1'},
