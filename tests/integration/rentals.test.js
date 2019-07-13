@@ -145,14 +145,6 @@ describe('/api/rentals', () => {
     
     })
 
-    it('should return 401 if client is not logged in', async() => {
-      token = "";
-
-      const res = await exec()
-
-      expect(res.status).toBe(401);
-    })
-
     it('should return 400 if customerId is invalid', async() => {
       customerId = mongoose.Types.ObjectId();
 
