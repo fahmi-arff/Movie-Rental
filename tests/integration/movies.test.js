@@ -23,19 +23,17 @@ describe('/api/movies', () => {
 
   describe('GET /', () => {
     it('should return all movie', async () => {
-      const genre = await Genre.findOne({ name: 'genre1' });
-
       await Movie.collection.insertMany([
         { 
           title: 'title1',
-          genreId: genre._id,
+          genreId: { name: '12345' },
           numberInStock: 5,
           dailyRentalRate: 7
          }
       ]);
 
       const res = await request(server).get('/api/movies');
-
+      
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(1);
       expect(res.body.some(g => g.title === 'title1')).toBeTruthy();
@@ -47,8 +45,8 @@ describe('/api/movies', () => {
     let id; 
     let genre1;
 
-    const exec = async () => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .get('/api/movies/' + id)
         .send();
     };
@@ -102,8 +100,8 @@ describe('/api/movies', () => {
     let dailyRentalRate;
     let genre;
 
-    const exec = async() => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .post('/api/movies')
         .set('x-auth-token', token)
         .send({ title, genreId, numberInStock, dailyRentalRate });
@@ -167,8 +165,8 @@ describe('/api/movies', () => {
     let genre1;
     let genre2;
 
-    const exec = async () => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .put('/api/movies/' + id)
         .set('x-auth-token', token)
         .send({ 
@@ -270,8 +268,8 @@ describe('/api/movies', () => {
     let id; 
     let genre1;
 
-    const exec = async () => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .delete('/api/movies/' + id)
         .set('x-auth-token', token)
         .send();
