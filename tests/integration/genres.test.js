@@ -4,6 +4,12 @@ const {User} = require('../../models/user');
 const mongoose = require('mongoose');
 
 let server;
+let token; 
+let genre; 
+let newName; 
+let id; 
+let name;
+
 
 describe('/api/genres', () => {
   beforeEach(() => {     
@@ -57,11 +63,8 @@ describe('/api/genres', () => {
   })
 
   describe('POST /', () => {
-    let token;
-    let name;
-
-    const exec = async() => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .post('/api/genres')
         .set('x-auth-token', token)
         .send({ name });
@@ -100,7 +103,7 @@ describe('/api/genres', () => {
       await exec();
 
       const genre = await Genre.find({ name: 'genre1' });
-
+      
       expect(genre).not.toBeNull();
     })
 
@@ -113,21 +116,14 @@ describe('/api/genres', () => {
   });
 
   describe('PUT /:id', () => {
-    let token; 
-    let newName; 
-    let genre; 
-    let id; 
-
-    const exec = async () => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .put('/api/genres/' + id)
         .set('x-auth-token', token)
         .send({ name: newName });
     }
 
     beforeEach(async () => {
-      // Before each test we need to create a genre and 
-      // put it in the database.      
       genre = new Genre({ name: 'genre1' });
       await genre.save();
       
@@ -193,20 +189,14 @@ describe('/api/genres', () => {
   });  
 
   describe('DELETE /:id', () => {
-    let token; 
-    let genre; 
-    let id; 
-
-    const exec = async () => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .delete('/api/genres/' + id)
         .set('x-auth-token', token)
         .send();
     }
 
     beforeEach(async () => {
-      // Before each test we need to create a genre and 
-      // put it in the database.      
       genre = new Genre({ name: 'genre1' });
       await genre.save();
       

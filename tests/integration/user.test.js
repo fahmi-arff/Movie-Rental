@@ -17,8 +17,8 @@ describe('/api/users', () => {
   describe('GET /me', () => {
     let token;
 
-    const exec = async() => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .get('/api/users/me')
         .set('x-auth-token', token)
     }
@@ -27,7 +27,7 @@ describe('/api/users', () => {
 
       const user = new User({ 
         name: 'name1', 
-        email: 'name@email.com',
+        email: 'user@email.com',
         password: '12345'
       });
       await user.save();
@@ -61,8 +61,8 @@ describe('/api/users', () => {
     let email;
     let password;
 
-    const exec = async() => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .post('/api/users')
         .send({ name , email, password});
     }

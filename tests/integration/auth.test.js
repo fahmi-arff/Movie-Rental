@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 
 let server;
 let token;
+let email;
+let password;
 
 describe('auth middleware', () => {
   beforeEach(() => { 
@@ -53,17 +55,14 @@ describe('auth user login', () => {
     await User.remove({});
   })
   
-  let email;
-  let password;
-
-  const exec = async() => {
-    return await request(server)
+  const exec = () => {
+    return request(server)
       .post('/api/users')
       .send({ name:'name1', email, password});
   }
 
-  const auth = async() => {
-    return await request(server)
+  const auth = () => {
+    return request(server)
       .post('/api/auth')
       .send({ email, password})
   }

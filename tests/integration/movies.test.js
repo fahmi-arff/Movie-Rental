@@ -5,15 +5,21 @@ const {User} = require('../../models/user');
 const mongoose = require('mongoose');
 
 let server;
+let movie; 
+let id; 
+let token;
+let title;
+let genreId;
+let numberInStock;
+let dailyRentalRate;
+let genre;
+let newTitle; 
+let newgenre; 
 
 describe('/api/movies', () => {
   beforeEach(async() => { 
     process.env.PORT = 6000;
     server = require('../../index'); 
-    await Genre.collection.insertMany([
-      { name: 'genre1'},
-      { name: 'genre2'}
-    ])
   })
   afterEach(async() => { 
     server.close();
@@ -41,10 +47,6 @@ describe('/api/movies', () => {
   });
 
   describe('GET /:id', () => {
-    let movie; 
-    let id; 
-    let genre1;
-
     const exec = () => {
       return request(server)
         .get('/api/movies/' + id)
@@ -52,13 +54,9 @@ describe('/api/movies', () => {
     };
 
     beforeEach(async () => {
-      genre1 = await Genre.findOne({ name: 'genre1' });
       movie = new Movie({ 
         title: 'Movie1',
-        genre: {
-          id: genre1._id,
-          name: genre1.name
-        },
+        genre: { name: '123456' },
         numberInStock: 5,
         dailyRentalRate: 7 
       });
@@ -69,7 +67,7 @@ describe('/api/movies', () => {
 
     it('should return a movie if valid id is passed', async () => {
       const res = await exec()
-
+      
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty('title', movie.title);
       expect(res.body).toHaveProperty('genre.name', movie.genre.name);
@@ -93,28 +91,25 @@ describe('/api/movies', () => {
   });
 
   describe('POST /', () => {
-    let token;
-    let title;
-    let genreId;
-    let numberInStock;
-    let dailyRentalRate;
-    let genre;
-
-    const exec = () => {
-      return request(server)
+    const exec = async() => {
+      return await request(server)
         .post('/api/movies')
         .set('x-auth-token', token)
         .send({ title, genreId, numberInStock, dailyRentalRate });
     }
 
     beforeEach(async() => {
-      genre = await Genre.findOne({ name: 'genre1' });
       token = new User().generateAuthToken();
       title = 'title1';
-      genreId = genre._id;
+      genreId = mongoose.Types.ObjectId();
       numberInStock = 5;
       dailyRentalRate = 7;
 
+      genre = new Genre({
+        _id : genreId,
+        name : 'Rambo'
+      })
+      await genre.save();
     })
 
     it('should return 401 if client is not logged in', async() => {
@@ -142,10 +137,10 @@ describe('/api/movies', () => {
     })
 
     it('should save the movie if it is valid', async() => {
-      await exec();
-
+      const res = await exec();
+      
       const movie = await Movie.find({ title });
-
+      expect(res.status).toBe(200);
       expect(movie).not.toBeNull();
     })
 
@@ -158,13 +153,6 @@ describe('/api/movies', () => {
   });
 
   describe('PUT /:id', () => {
-    let token; 
-    let newTitle; 
-    let newgenre; 
-    let id; 
-    let genre1;
-    let genre2;
-
     const exec = () => {
       return request(server)
         .put('/api/movies/' + id)
@@ -177,24 +165,29 @@ describe('/api/movies', () => {
         });
     }
 
-    beforeEach(async () => {   
-      genre1 = await Genre.findOne({ name: 'genre1' });
-      genre2 = await Genre.findOne({ name: 'genre2' });
+    beforeEach(async () => {    
+      genreId = mongoose.Types.ObjectId();
+      genre = new Genre({
+        _id : genreId,
+        name : 'Action'
+      })
+      await genre.save();
+
       movie = new Movie({ 
         title: 'Movie1',
         genre: {
-          id: genre1._id,
-          name: genre1.name
+          id: mongoose.Types.ObjectId(),
+          name: 'Sci-fi'
         },
         numberInStock: 5,
         dailyRentalRate: 7 
       });
       await movie.save();
-      
+
       token = new User().generateAuthToken();     
       id = movie._id; 
       newTitle = 'Movie2',
-      newgenre = genre2._id
+      newgenre = genre._id
     })
 
     it('should return 401 if client is not logged in', async () => {
@@ -258,16 +251,11 @@ describe('/api/movies', () => {
 
       expect(res.body).toHaveProperty('_id');
       expect(res.body).toHaveProperty('title', newTitle);
-      expect(res.body).toHaveProperty('genre.name', 'genre2');
+      expect(res.body).toHaveProperty('genre.name', 'Action');
     });
   });
 
   describe('DELETE /:id', () => {
-    let token; 
-    let movie; 
-    let id; 
-    let genre1;
-
     const exec = () => {
       return request(server)
         .delete('/api/movies/' + id)
@@ -276,18 +264,17 @@ describe('/api/movies', () => {
     };
 
     beforeEach(async () => {
-      genre1 = await Genre.findOne({ name: 'genre1' });
       movie = new Movie({ 
         title: 'Movie1',
         genre: {
-          id: genre1._id,
-          name: genre1.name
+          id: mongoose.Types.ObjectId(),
+          name: 'Sci-fi'
         },
         numberInStock: 5,
         dailyRentalRate: 7 
       });
       await movie.save();
-      
+   
       id = movie._id; 
       token = new User({ isAdmin: true }).generateAuthToken();     
     })

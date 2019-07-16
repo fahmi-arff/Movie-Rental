@@ -4,6 +4,13 @@ const {User} = require('../../models/user');
 const mongoose = require('mongoose');
 
 let server;
+let token;
+let name;
+let phone;
+let newName; 
+let newPhone;
+let customer; 
+let id; 
 
 describe('/api/customers', () => {
   beforeEach(() => { 
@@ -57,12 +64,8 @@ describe('/api/customers', () => {
   });
 
   describe('POST /', () => {
-    let token;
-    let name;
-    let phone;
-
-    const exec = async() => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .post('/api/customers')
         .set('x-auth-token', token)
         .send({ name , phone});
@@ -116,14 +119,8 @@ describe('/api/customers', () => {
   })
 
   describe('PUT /:id', () => {
-    let token; 
-    let newName; 
-    let newPhone;
-    let customer; 
-    let id; 
-
-    const exec = async () => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .put('/api/customers/' + id)
         .set('x-auth-token', token)
         .send({ name: newName , phone: newPhone});
@@ -197,12 +194,8 @@ describe('/api/customers', () => {
   });  
 
   describe('DELETE /:id', () => {
-    let token; 
-    let customer; 
-    let id; 
-
-    const exec = async () => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .delete('/api/customers/' + id)
         .set('x-auth-token', token)
         .send();
