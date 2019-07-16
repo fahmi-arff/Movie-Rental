@@ -131,6 +131,7 @@ describe('/api/users', () => {
     
     it('should return 400 if the email already registered', async() => {
       await exec();
+      name = 'fahmi';
       const res = await exec();
 
       expect(res.status).toBe(400);

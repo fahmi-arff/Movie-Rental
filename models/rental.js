@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi');
 const mongoose = require('mongoose');
 
-const Rental = mongoose.model('Rental', new mongoose.Schema({
+const rentalSchema = new mongoose.Schema({
   customer: { 
     type: new mongoose.Schema({
       name: {
@@ -53,7 +53,18 @@ const Rental = mongoose.model('Rental', new mongoose.Schema({
     type: Number, 
     min: 0
   }
-}));
+});
+
+// add static method
+rentalSchema.statics.lookup = function(customerId, movieId){
+  // this reference Rental class
+  return this.findOne({
+    'customer._id': customerId,
+    'movie._id': movieId
+  })
+}
+
+const Rental = mongoose.model('Rental', rentalSchema);
 
 function validateRental(rental) {
   const schema = {
