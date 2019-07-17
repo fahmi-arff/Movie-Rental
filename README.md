@@ -13,3 +13,4 @@ Endpoint
 /api/rentals
 
 Make sure to register first and login to get token
+
