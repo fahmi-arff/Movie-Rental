@@ -10,6 +10,7 @@ let password;
 
 describe('auth middleware', () => {
   beforeEach(() => { 
+    process.env.PORT = 3002;
     server = require('../../index'); 
     token = new User().generateAuthToken();
   })

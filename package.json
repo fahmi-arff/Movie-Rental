@@ -7,7 +7,7 @@
     "test": "jest --verbose --coverage",
     "start": "node index.js"
   },
-  "engines":{
+  "engines": {
     "node": "10.16.0"
   },
   "keywords": [],
@@ -18,6 +18,7 @@
     "bcrypt": "^3.0.6",
     "compression": "^1.7.4",
     "config": "^3.1.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "fawn": "^2.1.5",
