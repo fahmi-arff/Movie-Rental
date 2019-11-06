@@ -10,8 +10,9 @@ let newName;
 let id; 
 let name;
 
-afterAll(async () => {
+afterAll(async (done) => {
   await mongoose.disconnect();
+  done()
 })
 
 describe('/api/genres', () => {

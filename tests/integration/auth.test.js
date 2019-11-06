@@ -9,8 +9,9 @@ let token;
 let email;
 let password;
 
-afterAll(async () => {
+afterAll(async (done) => {
   await mongoose.disconnect();
+  done()
 })
 
 describe('auth middleware', () => {

@@ -16,8 +16,9 @@ let genre;
 let newTitle; 
 let newgenre; 
 
-afterAll(async () => {
+afterAll(async (done) => {
   await mongoose.disconnect();
+  done()
 })
 
 describe('/api/movies', () => {

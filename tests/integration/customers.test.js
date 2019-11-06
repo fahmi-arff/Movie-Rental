@@ -12,8 +12,9 @@ let newPhone;
 let customer; 
 let id; 
 
-afterAll(async () => {
+afterAll(async (done) => {
   await mongoose.disconnect();
+  done()
 })
 
 describe('/api/customers', () => {

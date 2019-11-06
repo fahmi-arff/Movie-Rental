@@ -4,8 +4,9 @@ const mongoose = require('mongoose');
 
 let server;
 
-afterAll(async () => {
+afterAll(async (done) => {
   await mongoose.disconnect();
+  done()
 })
 
 describe('/api/users', () => {

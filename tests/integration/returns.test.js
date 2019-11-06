@@ -5,8 +5,9 @@ const {Movie} = require('../../models/movie');
 const {User} = require('../../models/user');
 const mongoose = require('mongoose');
 
-afterAll(async () => {
+afterAll(async (done) => {
   await mongoose.disconnect();
+  done()
 })
 
 describe('/api/returns', () => {
