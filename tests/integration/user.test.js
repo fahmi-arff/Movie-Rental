@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 
 let server;
 
+afterAll(async () => {
+  await mongoose.disconnect();
+})
+
 describe('/api/users', () => {
   beforeEach(() => { 
     process.env.PORT = 8000;

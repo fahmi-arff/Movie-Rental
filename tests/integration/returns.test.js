@@ -5,6 +5,10 @@ const {Movie} = require('../../models/movie');
 const {User} = require('../../models/user');
 const mongoose = require('mongoose');
 
+afterAll(async () => {
+  await mongoose.disconnect();
+})
+
 describe('/api/returns', () => {
   let server;
   let customerId;

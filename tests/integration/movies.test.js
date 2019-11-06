@@ -16,6 +16,10 @@ let genre;
 let newTitle; 
 let newgenre; 
 
+afterAll(async () => {
+  await mongoose.disconnect();
+})
+
 describe('/api/movies', () => {
   beforeEach(async() => { 
     process.env.PORT = 6000;

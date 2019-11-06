@@ -10,6 +10,9 @@ let newName;
 let id; 
 let name;
 
+afterAll(async () => {
+  await mongoose.disconnect();
+})
 
 describe('/api/genres', () => {
   beforeEach(() => {     

@@ -1,4 +1,5 @@
 const request = require('supertest');
+const mongoose = require('mongoose');
 const {User} = require('../../models/user');
 const {Genre} = require('../../models/genre');
 const bcrypt = require('bcrypt');
@@ -7,6 +8,10 @@ let server;
 let token;
 let email;
 let password;
+
+afterAll(async () => {
+  await mongoose.disconnect();
+})
 
 describe('auth middleware', () => {
   beforeEach(() => { 

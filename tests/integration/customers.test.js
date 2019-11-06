@@ -12,6 +12,10 @@ let newPhone;
 let customer; 
 let id; 
 
+afterAll(async () => {
+  await mongoose.disconnect();
+})
+
 describe('/api/customers', () => {
   beforeEach(() => { 
     process.env.PORT = 4000;
