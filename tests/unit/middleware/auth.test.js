@@ -2,6 +2,11 @@ const {User} = require('../../../models/user');
 const auth = require('../../../middleware/auth');
 const mongoose = require('mongoose');
 
+afterAll(async (done) => {
+  await mongoose.disconnect();
+  done()
+})
+
 describe('auth middleware', () => {
   it('should populate req.user with the payload of a valid JWT', () => {
     const user = { 
