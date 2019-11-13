@@ -1,5 +1,8 @@
 # Movie-Rental
-Movie Rental API with express, mongodb with jest integrating testing and tdd 
+Movie Rental API with express, mongodb with jest integrating testing and tdd and connected to travis CI
+
+![alt text](https://raw.githubusercontent.com/fahmi-arff/Movie-Rental/master/ci.png)
+
 
 try my API with postman
 https://murmuring-ocean-16180.herokuapp.com
